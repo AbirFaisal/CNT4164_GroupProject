@@ -1,0 +1,79 @@
+\documentclass[journal]{IEEEtran} % TODO find out what is journal
+\renewcommand{\familydefault}{phv}
+\renewcommand{\rmdefault}{phv} % Arial
+\renewcommand{\sfdefault}{phv} % Arial
+\usepackage[a4paper, margin=1in]{geometry} % paper size and margin
+\usepackage{microtype} % prevent word breaks
+\usepackage{cite} % TODO learn how to use
+\usepackage{tikz} % for plantuml exports
+\usepackage{graphicx} % TODO what does this do?
+\usepackage{float} % force images into text
+\usepackage{caption} % TODO what does this do?
+
+\graphicspath{ {./images/} } % path where images are stored
+
+% TODO Florida Atlantic University
+\title{
+    Project Title \\
+    }
+
+\author{
+    Abir Faisal, Paris Isley, Tutku Gizem, Andrei Kharchenko \\
+    \small CNT4164 - Intro to IOT and Sensor Networks - Final Project \\
+    \small Prof. Mohammad Ilyas
+    % \small Department of Electrical Engineering and Computer Science, Florida Atlantic University
+    }
+
+
+\markboth{Department of Electrical Engineering and Computer Science, Florida Atlantic University, Janurary 2025}{} %{left head}{right head}
+
+\begin{document}
+
+\twocolumn[ % force abstract to use two columns.
+
+% prevent page break
+\begin{@twocolumnfalse}
+    \maketitle
+\end{@twocolumnfalse}
+
+
+\begin{abstract}
+    A brief summary of the entire paper, including the research question, methodology, key findings, and conclusions. 
+\end{abstract}
+
+\begin{IEEEkeywords}
+    Sensor Networks, IoT
+\end{IEEEkeywords}
+
+\noindent\rule{\textwidth}{1pt}
+% \bigskip
+\smallskip
+]
+
+\section{Introduction}
+
+IOT stuff \cite{name2025company}
+
+
+\section{Security}
+
+DTLS
+
+
+\section{Topology}
+
+\section{Sensors}
+
+\section{Measurement}
+
+\section{Power}
+
+\section{Setup}
+CoAP
+
+
+\bibliographystyle{plain} % We choose the "plain" reference style
+\bibliography{references.bib} % Entries are in the refs.bib file
+
+
+\end{document}
