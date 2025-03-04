@@ -56,7 +56,18 @@ IOT stuff \cite{name2025company}
 
 \section{Project Description}
 
-\subsection{Devices}
+We are using an RP2040W as an IoT device, this will contain a web interface and it will
+query nodes on the sensor network.
+
+We're using an ESP01 devices as a nodes for the sensor network.
+It contains a AHT20 temperature and humidity sensor, connected to the ESP01 over i2c.
+
+The combination of the IoT device and the sensor network will create a smart system, specifically a smart thermostat.
+In this implimentation, the IoT device also serves as the smart system.
+
+\subsection{}
+
+ESP01
 
 
 \section{Results}
@@ -190,7 +201,18 @@ IOT stuff \cite{name2025company}
 
 % TODO REMOVE BEFORE SUBMISSION
 
+\section{Internet of Things}
+
+
+\section{Sensor Network}
+
+
+\section{Smart System}
+
+
 \section{Networking and Topology}
+
+\subsection{Networking}
 
 If a home has internet connectivity, it means that there is a existing network infrastructure.
 Also the majority of ISP gateways already contain wireless networking capabilities.
@@ -199,6 +221,21 @@ As of 2021, 90\% percent of U.S households have a broadband internet subscriptio
 
 Given this, it makes sense that the optimal way (in terms of cost and configuration) for sensor networks to communicate,
 is through this wireless network.
+
+\subsection{Topology}
+
+Given the selected networking method, the best topology for the sensor network is going to be a star network.
+
+The IoT device will query each node on the sensor network and collect measurements.
+
+
+\section{Power}
+
+
+
+
+\section{Security}
+
 
 
 \section{Conclusions}
