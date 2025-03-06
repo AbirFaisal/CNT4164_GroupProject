@@ -60,7 +60,7 @@ We are using an RP2040W as an IoT device, this will contain a web interface and 
 query nodes on the sensor network.
 
 We're using an ESP01 devices as a nodes for the sensor network.
-It contains a AHT20 temperature and humidity sensor, connected to the ESP01 over i2c.
+It will be paired with an AHT20 temperature and humidity sensor, connected to the ESP01 over i2c.
 
 The combination of the IoT device and the sensor network will create a smart system, specifically a smart thermostat.
 In this implimentation, the IoT device also serves as the smart system.
@@ -231,15 +231,62 @@ The IoT device will query each node on the sensor network and collect measuremen
 
 \section{Power}
 
+\subsection{IoT Power}
 
+Thermostats contain existing wiring for power, usually 24v AC.
+
+For this project we are using a 24v AC to 12v DC converter, 
+which will then be stepped down to 5v to power the IoT device.
+
+
+\subsection{Sensor network power}
+
+According to the datasheet for the ESP8266, it should consume approximately 200mA under load.
+
+According the datasheet for the AHT20, the sensor typically consumes about 3mA.
+
+Both devices will accept 3.3v.
+
+Therefore a 3.3v powersupply of 250mA (approximately 0.825W) should be sufficient.
+
+For areas with sufficient lighting combination of solar and battery could be an option.
+
+However it makes more sense to power the nodes using a USB adapter.
+
+There is an amount of heat that will be produced from power conversion,
+and the sensor needs to be thermally isolated from this.
 
 
 \section{Security}
 
+\subsection{web interface}
+
+\subsection{nodes}
+
+\subsection{updates}
+
+
+
+\section{Smart system}
+
+The smart thermostat would take measurements from the sensor network.
+
+Using the average of the sensors, biased by the hightest or lowest reading,
+the thermostat would know how to maintain the temperature of the room.
+
+For example if the thermostat is set to maintain coolness, 
+then the the highest reading would be used as the bias.
+
+If the thermostat is set to heat,
+then the lowest temperature reading would be used as the bias.
 
 
 \section{Conclusions}
 
+
+\section{3rd Party Libraries}
+robtillaart/DHT20
+tzapu/WiFiManager
 
 
 % \begin{@twocolumnfalse}
