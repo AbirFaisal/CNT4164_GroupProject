@@ -42,12 +42,14 @@
 
 #include <Arduino.h>
 #include "sensor.h"
+#include "sensorserver.h"
 
 class Main
 {
   public:
-  //
+  // Services
   Sensor sensor0;
+  SensorServer sensorServer0;
 
   // shared variables
   float temperature = 0.0;
@@ -59,6 +61,7 @@ class Main
 
   void setup(){
     sensor0.setup();
+    sensorServer0.setup();
   }
 
   void run() {
@@ -66,7 +69,8 @@ class Main
 
     // run and update
     sensor0.run(&temperature, &humidity);
-
+    
+    sensorServer0.run();
 
     // print status
     Serial.print("temperature ");
