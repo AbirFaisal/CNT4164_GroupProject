@@ -58,7 +58,7 @@ void SensorServer::run(float temperature, float humidity)
     {
         Serial.println("Has client");
 
-        String currentLine = "";
+        String request = "";
 
         while (client.connected())
         {
@@ -70,37 +70,38 @@ void SensorServer::run(float temperature, float humidity)
                 if (c == '\n')
                 {
                     // If the current line is blank, skip it.
-                    if (currentLine.length() == 0)
+                    if (request.length() == 0)
                     {
                         // Response Header
                         client.println("HTTP/1.1 200 OK");
                         client.println("Content-Type: application/json");
-                        client.println("Content-Type: text/html");
                         client.println("Connection: close");
                         client.println();
 
-                        // Response
+                        // Response Body
                         client.print("{\"id\": 1, \"temperature\": ");
-
                         dtostrf(temperature, 2, 3, buffer);
                         client.print(buffer);
-                        
+
                         client.print(", \"humidity\": ");
                         dtostrf(humidity, 2, 3, buffer);
                         client.print(buffer);
-                        client.print("}");                        
+
+                        client.print("}");
 
                         // End
                         client.println();
                         break;
                     }
-                    // If you got a newline, then clear currentLine:
-                    currentLine = "";
+                    else
+                    {
+                        request = "";
+                    }
                 }
                 else if (c != '\r')
                 {
                     // Otherwise the char is a normal char:
-                    currentLine += c;
+                    request += c;
                 }
             }
         }
@@ -109,4 +110,3 @@ void SensorServer::run(float temperature, float humidity)
     client.stop();
     // Serial.println("Client Disconnected");
 }
-
