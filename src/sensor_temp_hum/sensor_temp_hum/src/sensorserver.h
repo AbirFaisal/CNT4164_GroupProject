@@ -13,6 +13,8 @@
 
 #include <WiFiManager.h>
 
+#include <Arduino.h>
+
 
 class SensorServer {
 
@@ -30,8 +32,7 @@ class SensorServer {
     ~SensorServer();
 
     void setup();
-    void run();
-
+    void run(float temperature, float humidity);
 
 
 };

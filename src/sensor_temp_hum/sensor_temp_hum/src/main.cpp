@@ -70,7 +70,7 @@ class Main
     // run and update
     sensor0.run(&temperature, &humidity);
     
-    sensorServer0.run();
+    sensorServer0.run(temperature, humidity);
 
     // print status
     // Serial.print("temperature ");

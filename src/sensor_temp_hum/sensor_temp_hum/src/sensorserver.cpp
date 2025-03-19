@@ -47,18 +47,22 @@ void SensorServer::setup()
     }
 }
 
-void SensorServer::run()
+void SensorServer::run(float temperature, float humidity)
 {
 
     client = server.available();
 
+    char buffer[10];
+
     if (client)
     {
         Serial.println("Has client");
+
         String currentLine = "";
+
         while (client.connected())
         {
-            Serial.println("Client is connected");
+            // Serial.println("Client is connected");
             if (client.available())
             {
                 char c = client.read();
@@ -68,29 +72,27 @@ void SensorServer::run()
                     // If the current line is blank, skip it.
                     if (currentLine.length() == 0)
                     {
+                        // Response Header
                         client.println("HTTP/1.1 200 OK");
-                        // client.println("Content-Type: application/json");
+                        client.println("Content-Type: application/json");
                         client.println("Content-Type: text/html");
-
                         client.println("Connection: close");
                         client.println();
 
-                        client.println("<!DOCTYPE html>");
-                        client.println("<html>");
-                        client.println("<head>");
-                        client.println("<title>ESP8266 Web Server</title>");
-                        client.println("<style>");
-                        client.println("body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }");
-                        client.println("</style>");
-                        client.println("</head>");
-                        client.println("<body>");
-                        client.println("<h1>Welcome to the ESP8266 Web Server</h1>");
-                        client.println("<p>This is a simple webpage served from an ESP8266.</p>");
-                        client.println("</body>");
-                        client.println("</html>");
+                        // Response
+                        client.print("{\"id\": 1, \"temperature\": ");
 
+                        dtostrf(temperature, 2, 3, buffer);
+                        client.print(buffer);
+                        
+                        client.print(", \"humidity\": ");
+                        dtostrf(humidity, 2, 3, buffer);
+                        client.print(buffer);
+                        client.print("}");                        
 
+                        // End
                         client.println();
+                        break;
                     }
                     // If you got a newline, then clear currentLine:
                     currentLine = "";
