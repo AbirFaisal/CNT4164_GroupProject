@@ -65,7 +65,7 @@ class Main
   }
 
   void run() {
-    Serial.println("Running...");
+    // Serial.println("Running...");
 
     // run and update
     sensor0.run(&temperature, &humidity);
@@ -73,13 +73,13 @@ class Main
     sensorServer0.run();
 
     // print status
-    Serial.print("temperature ");
-    Serial.println(temperature);
+    // Serial.print("temperature ");
+    // Serial.println(temperature);
 
-    Serial.print("humidity ");
-    Serial.println(humidity);
+    // Serial.print("humidity ");
+    // Serial.println(humidity);
 
-    delay(500);
+    // delay(500);
   }
 
   void blink()
