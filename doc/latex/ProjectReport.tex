@@ -10,6 +10,11 @@
 \usepackage{float} % force images into text
 \usepackage{caption} % TODO what does this do?
 
+\usepackage{pgffor} % for sourcecode
+\usepackage{listings} % for sourcecode
+\usepackage{color} % for sourcecode
+
+
 \graphicspath{ {./images/} } % path where images are stored
 
 % TODO Florida Atlantic University
@@ -68,6 +73,11 @@ In this implimentation, the IoT device also serves as the smart system.
 \subsection{}
 
 ESP01
+Setup
+The device presents a WiFi access point that you can connect to using your phone or computer over.
+From there a portal is presented where you can connect the sensor to the network.
+After this the device connects to the specified network,
+and presents a server that returns a JSON that contains the readings for the onboard sensors.
 
 
 \section{Results}
@@ -184,7 +194,6 @@ ESP01
 \end{itemize}
 
 
-\pagebreak
 % TODO REMOVE BEFORE SUBMISSION:
 
 % Who, what, when, where, how, and whys
@@ -209,6 +218,16 @@ ESP01
 
 \section{Smart System}
 
+The smart thermostat would take measurements from the sensor network.
+
+Using the average of the sensors, biased by the hightest or lowest reading,
+the thermostat would know how to maintain the temperature of the room.
+
+For example if the thermostat is set to maintain coolness, 
+then the the highest reading would be used as the bias.
+
+If the thermostat is set to heat,
+then the lowest temperature reading would be used as the bias.
 
 \section{Networking and Topology}
 
@@ -220,14 +239,29 @@ Also the majority of ISP gateways already contain wireless networking capabiliti
 As of 2021, 90\% percent of U.S households have a broadband internet subscription \cite{censusgov}.
 
 Given this, it makes sense that the optimal way (in terms of cost and configuration) for sensor networks to communicate,
-is through this wireless network.
+through this wireless network.
 
 \subsection{Topology}
 
-Given the selected networking method, the best topology for the sensor network is going to be a star network.
+Given the selected networking method, the best topology for the sensor network is going to be a star network. 
+This topology allows each node in the sensor network to notify central IoT device (the RP2040W) of it's readings.
+Alternatively the IoT device can scan for and query each sensor.
+Also a house would have at most a few dozen sensors, so there is no risk of congestion on modern home networking hardware.
+Even if there were 1000 sensors, this would not be a problem for modern hardware because the amount of data being transmitted is less than 1KB,
+and each device is queried sequentially.
 
-The IoT device will query each node on the sensor network and collect measurements.
+The size of an standard network packet is 1518 bytes, 
+and the sensor returns approximately 114 bytes(chars) of data,
+therefore the response data should fit into a single network transmission.
 
+For the user it's simple and easy to set up, anyone that can connect a device to their WiFi can connect a sensor to the network.
+The sensor presents a wifi AP, 
+the user connects to it, 
+it makes a setup portal appear on their device, 
+and they simply enter their wifi credentials.
+
+For sensors that may be out of range,
+off the shelf WiFi repeaters may be used.
 
 \section{Power}
 
@@ -245,7 +279,7 @@ According to the datasheet for the ESP8266, it should consume approximately 200m
 
 According the datasheet for the AHT20, the sensor typically consumes about 3mA.
 
-Both devices will accept 3.3v.
+Both the sensor and controller will accept 3.3v.
 
 Therefore a 3.3v powersupply of 250mA (approximately 0.825W) should be sufficient.
 
@@ -253,46 +287,52 @@ For areas with sufficient lighting combination of solar and battery could be an 
 
 However it makes more sense to power the nodes using a USB adapter.
 
-There is an amount of heat that will be produced from power conversion,
-and the sensor needs to be thermally isolated from this.
-
 
 \section{Security}
 
+
+
 \subsection{web interface}
 
+
 \subsection{nodes}
+
 
 \subsection{updates}
 
 
 
-\section{Smart system}
-
-The smart thermostat would take measurements from the sensor network.
-
-Using the average of the sensors, biased by the hightest or lowest reading,
-the thermostat would know how to maintain the temperature of the room.
-
-For example if the thermostat is set to maintain coolness, 
-then the the highest reading would be used as the bias.
-
-If the thermostat is set to heat,
-then the lowest temperature reading would be used as the bias.
-
-
 \section{Conclusions}
 
 
-\section{3rd Party Libraries}
-robtillaart/DHT20
-tzapu/WiFiManager
 
 
 % \begin{@twocolumnfalse}
     \bibliographystyle{plain} % We choose the "plain" reference style
     \bibliography{references.bib} % Entries are in the refs.bib file
 % \end{@twocolumnfalse}
+
+\section{3rd Party Libraries}
+github.com/robtillaart/DHT20
+
+github.com/tzapu/WiFiManager
+
+
+% \pagebreak
+\begin{@twocolumnfalse}
+
+    \section{Source Code - Sensor}
+    
+    \newcommand{\sensorsrcdir}{/Users/administrator/Developer/School stuff/CNT4164/CNT4164_GroupProject/src/sensor_temp_hum/sensor_temp_hum/src/}
+    
+    \foreach \cpp in  {\sensorsrcdir main.cpp, \sensorsrcdir sensor.cpp, \sensorsrcdir sensor.h, \sensorsrcdir sensorserver.cpp, \sensorsrcdir sensorserver.h} {
+
+        \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+        \lstinputlisting[language=C++, basicstyle=\footnotesize]{\cpp}
+    
+    }
+
+\end{@twocolumnfalse}
 
 
 \end{document}
