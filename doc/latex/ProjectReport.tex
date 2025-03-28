@@ -1,4 +1,4 @@
-\documentclass[journal]{IEEEtran} % TODO find out what is journal
+\documentclass[10pt, journal]{IEEEtran} % TODO find out what is journal
 \renewcommand{\familydefault}{phv}
 \renewcommand{\rmdefault}{phv} % Arial
 \renewcommand{\sfdefault}{phv} % Arial
@@ -13,7 +13,7 @@
 \usepackage{pgffor} % for sourcecode
 \usepackage{listings} % for sourcecode
 \usepackage{color} % for sourcecode
-
+\usepackage{url} % to show URLs
 
 \graphicspath{ {./images/} } % path where images are stored
 
@@ -23,9 +23,12 @@
     }
 
 \author{
-    Abir Faisal, Paris Isley, Tutku Gizem, Andrei Kharchenko \\
+    Abir Faisal, Paris Isley, Tutku Gizem \\
+    \small Group: UG18-4164 \\
     \small CNT4164 - Intro to IOT and Sensor Networks - Final Project \\
-    \small Prof. Mohammad Ilyas
+    \small Prof. Mohammad Ilyas \\
+    \smallskip
+    \small Project Repository: \url{https://github.com/AbirFaisal/CNT4164_GroupProject}
     % \small Department of Electrical Engineering and Computer Science, Florida Atlantic University
     }
 
@@ -57,33 +60,78 @@
 
 \section{Introduction}
 
-IOT stuff \cite{name2025company}
+The idea of the smart home has been around for a long time.
+IoT devices enable the smart devices to be networked.
+The use of these devices can provide users with several advantages,
+such as increased comfort, increased safety, improved home management and maintainance,
+energy savings, automation and convenience in general.
+
+Furthermore, sensor networks augment the use of IoT devices by collecting data around the home.
+Unlike centralized sensing, a network of sensors can provice a more granular understanding of the enviornment.
+These sensors can be placed throughout the home, and connect using existing network infrastructure.
+
+In this report we show the use of a sensor network that could be used for climate control.
 
 \section{Project Description}
 
 We are using an RP2040W as an IoT device, this will contain a web interface and it will
 query nodes on the sensor network.
+We did not have adequete time to implement this in hardware,
+it is being mentioned for the purpose of explaining the concept.
 
 We're using an ESP01 devices as a nodes for the sensor network.
-It will be paired with an AHT20 temperature and humidity sensor, connected to the ESP01 over i2c.
+It will be paired with an AHT20 temperature and humidity sensor, 
+which will be connected to the ESP01 over i2c.
 
 The combination of the IoT device and the sensor network will create a smart system, specifically a smart thermostat.
-In this implimentation, the IoT device also serves as the smart system.
+In this implimentation, 
+the IoT device also serves as the smart system because it would have direct control of the air conditioner.
 
-\subsection{}
+\subsection{Sensor}
 
-ESP01
-Setup
-The device presents a WiFi access point that you can connect to using your phone or computer over.
-From there a portal is presented where you can connect the sensor to the network.
+An image of the sensor node can be seen in [Figure \ref{fig:sensor}].
+The buttons are only for debugging purposes such as resetting the controller 
+and putting it into programming mode to flash the firmware.
+They are not used for any other function.
+
+Setting up the device on the network is simple.
+The device presents a WiFi access point that you can connect to using your phone or computer.
+After you connect, a captive portal is presented where you can enter the necessarry credentials 
+such as the WiFi SSID and the password to connect the sensor to the network.
 After this the device connects to the specified network,
 and presents a server that returns a JSON that contains the readings for the onboard sensors.
+If the network configureation is changed, or the device is unable to find or connnect to the configured network,
+the device presents an access point again and the user can repeat this process.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/sensor.png}
+    \caption{ESP01 + AHT20 Sensor}
+    \label{fig:sensor}
+\end{figure}
+
 
 
 \section{Results}
-% for practical projects
+
+The sensor responds with a JSON formatted string when sent an HTTP request to it's IP Address.
+[Figure \ref{fig:sensor_response}]
+
+
+\lstinline[basicstyle=\footnotesize]|{"id": 1, "temperature": 25.347, "humidity": 35.634}|
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.4\textwidth]{images/sensor_response.png}
+    \caption{Response from sensor}
+    \label{fig:sensor_response}
+\end{figure}
+
 
 \section*{IoT Devices in Home Sensor Networks}
+
+There are many areas where a sensors can be used in the home.
+Here is a list of examples:
 
 \begin{itemize}[]  % Customized list with more spacing
     \item{\textbf{Security and Surveillance}}
@@ -194,6 +242,7 @@ and presents a server that returns a JSON that contains the readings for the onb
 \end{itemize}
 
 
+
 % TODO REMOVE BEFORE SUBMISSION:
 
 % Who, what, when, where, how, and whys
@@ -210,24 +259,50 @@ and presents a server that returns a JSON that contains the readings for the onb
 
 % TODO REMOVE BEFORE SUBMISSION
 
-\section{Internet of Things}
+\section{Internet of Things, Sensor Networks, and Smart Systems}
+
+The IoT device in this use case serves two main responsabilties.
+Querying the sensors on the network, 
 
 
-\section{Sensor Network}
 
+\subsection{Smart System}
 
-\section{Smart System}
-
-The smart thermostat would take measurements from the sensor network.
+The smart thermostat can take measurements from the sensor network.
 
 Using the average of the sensors, biased by the hightest or lowest reading,
 the thermostat would know how to maintain the temperature of the room.
 
 For example if the thermostat is set to maintain coolness, 
-then the the highest reading would be used as the bias.
+then the the highest reading would be used as the bias:
+
+$S = \{sensor_1, sensor_2, sensor_3, ...sensor_n\}$
+
+\[
+T = \frac{1}{n+1}\left[ \max_{s \in S} + \sum_{s \in S}{s} \right]
+\]
 
 If the thermostat is set to heat,
-then the lowest temperature reading would be used as the bias.
+then the lowest temperature reading would be used as the bias:
+
+$S = \{sensor_1, sensor_2, sensor_3, ...sensor_n\}$
+
+\[
+T = \frac{1}{n+1}\left[ \min_{s \in S} + \sum_{s \in S}{s} \right]
+\]
+
+Where $S$ are the readings from the sensor network,
+and $T$ is the measured temperature.
+
+It is possible to create a smart system that automatically heats and cools as needed,
+but this can result in a control loop that oscillates if not done correctly.
+This is why thermostats generally do not have this functionality.
+A control loop such as PID can manage a system like this,
+however the engineering expense for such a system would far exceed the benefits 
+outside of a controlled environment such as a labratory.
+A common change such as new furniture or home improvement
+can require recalibation of the PID parameters.
+
 
 \section{Networking and Topology}
 
@@ -244,7 +319,7 @@ through this wireless network.
 \subsection{Topology}
 
 Given the selected networking method, the best topology for the sensor network is going to be a star network. 
-This topology allows each node in the sensor network to notify central IoT device (the RP2040W) of it's readings.
+This topology allows each node in the sensor network to notify a central IoT device (the RP2040W) of it's readings.
 Alternatively the IoT device can scan for and query each sensor.
 Also a house would have at most a few dozen sensors, so there is no risk of congestion on modern home networking hardware.
 Even if there were 1000 sensors, this would not be a problem for modern hardware because the amount of data being transmitted is less than 1KB,
@@ -291,7 +366,6 @@ However it makes more sense to power the nodes using a USB adapter.
 \section{Security}
 
 
-
 \subsection{web interface}
 
 
@@ -299,7 +373,6 @@ However it makes more sense to power the nodes using a USB adapter.
 
 
 \subsection{updates}
-
 
 
 \section{Conclusions}
@@ -319,20 +392,20 @@ github.com/tzapu/WiFiManager
 
 
 % \pagebreak
-\begin{@twocolumnfalse}
+% \begin{@twocolumnfalse}
 
-    \section{Source Code - Sensor}
+%     \section{Source Code - Sensor}
     
-    \newcommand{\sensorsrcdir}{/Users/administrator/Developer/School stuff/CNT4164/CNT4164_GroupProject/src/sensor_temp_hum/sensor_temp_hum/src/}
+%     \newcommand{\sensorsrcdir}{/Users/administrator/Developer/School stuff/CNT4164/CNT4164_GroupProject/src/sensor_temp_hum/sensor_temp_hum/src/}
     
-    \foreach \cpp in  {\sensorsrcdir main.cpp, \sensorsrcdir sensor.cpp, \sensorsrcdir sensor.h, \sensorsrcdir sensorserver.cpp, \sensorsrcdir sensorserver.h} {
+%     \foreach \cpp in  {\sensorsrcdir main.cpp, \sensorsrcdir sensor.cpp, \sensorsrcdir sensor.h, \sensorsrcdir sensorserver.cpp, \sensorsrcdir sensorserver.h} {
 
-        \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-        \lstinputlisting[language=C++, basicstyle=\footnotesize]{\cpp}
+%         \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+%         \lstinputlisting[language=C++, basicstyle=\footnotesize]{\cpp}
     
-    }
+%     }
 
-\end{@twocolumnfalse}
+% \end{@twocolumnfalse}
 
 
 \end{document}
