@@ -117,8 +117,11 @@ the device presents an access point again and the user can repeat this process.
 The sensor responds with a JSON formatted string when sent an HTTP request to it's IP Address.
 [Figure \ref{fig:sensor_response}]
 
+Here is an sample:
 
 \lstinline[basicstyle=\footnotesize]|{"id": 1, "temperature": 25.347, "humidity": 35.634}|
+
+The temperature is reported in celsius, and the humidity is reported in percent relative humidity.
 
 \begin{figure}[htpb]
     \centering
@@ -261,38 +264,47 @@ Here is a list of examples:
 
 \section{Internet of Things, Sensor Networks, and Smart Systems}
 
-The IoT device in this use case serves two main responsabilties.
-Querying the sensors on the network, 
+The IoT device in this use case serves two main responsabilties 
+querying the sensors on the network, and providing a web interface.
 
+The web interface should present a dashboard to the user where they can
+monitor the temperature and set preferences.
 
 
 \subsection{Smart System}
 
-The smart thermostat can take measurements from the sensor network.
+A smart thermostat would take measurements from the sensor network to make decisions.
 
 Using the average of the sensors, biased by the hightest or lowest reading,
 the thermostat would know how to maintain the temperature of the room.
 
-For example if the thermostat is set to maintain coolness, 
-then the the highest reading would be used as the bias:
+
+Assume $S$ is a set of readings from the sensor network:
 
 $S = \{sensor_1, sensor_2, sensor_3, ...sensor_n\}$
 
+\bigskip
+
+If the thermostat is set to maintain coolness,
+then the the highest reading would be used as the bias:
+
 \[
-T = \frac{1}{n+1}\left[ \max_{s \in S} + \sum_{s \in S}{s} \right]
+T_c = \frac{1}{n+1}\left[ \max_{s \in S} + \sum_{s \in S}{s} \right]
 \]
+
+\smallskip
 
 If the thermostat is set to heat,
 then the lowest temperature reading would be used as the bias:
 
-$S = \{sensor_1, sensor_2, sensor_3, ...sensor_n\}$
-
 \[
-T = \frac{1}{n+1}\left[ \min_{s \in S} + \sum_{s \in S}{s} \right]
+T_c = \frac{1}{n+1}\left[ \min_{s \in S} + \sum_{s \in S}{s} \right]
 \]
 
-Where $S$ are the readings from the sensor network,
-and $T$ is the measured temperature.
+Where $T_c$ is the computed temperature.
+
+\bigskip
+
 
 It is possible to create a smart system that automatically heats and cools as needed,
 but this can result in a control loop that oscillates if not done correctly.
@@ -303,6 +315,36 @@ outside of a controlled environment such as a labratory.
 A common change such as new furniture or home improvement
 can require recalibation of the PID parameters.
 
+A simple solution for this can be the use of threshold values.
+This assumes that the average daily temperature fluxuation is known.
+If the temperature is within the specified range, nothing is done,
+
+For example a target temperature of 75 is set, with a range of 68-78.
+If the temperature rises above 78, the system cools to 75,
+if the temperature drops below 68, the system heats to 75.
+
+\[
+T_c = \frac{1}{n}\sum_{s \in S}{s}
+\]
+
+$heat = T_c < T_l$
+
+$cool = T_c > T_u$
+
+$action = argmax(heat, cool)$
+
+\smallskip
+
+Where $T_l$ is the lower bound, and $T_u$ is the upper bound.
+
+\bigskip
+
+As long as the average daily temperature fluxuation is within the bounds,
+this system should not oscillate.
+
+Furthermore such a system would be simple enough for an end user to configure themselves,
+and the system can be extended to use external APIs to retrieve weather data 
+and adjust this range automatically.
 
 \section{Networking and Topology}
 
@@ -347,6 +389,11 @@ Thermostats contain existing wiring for power, usually 24v AC.
 For this project we are using a 24v AC to 12v DC converter, 
 which will then be stepped down to 5v to power the IoT device.
 
+Home HVAC systems are controlled using relays,
+so the 12v rail can be used to trigger the relay.
+
+This controller is programmed over the USB port,
+so we are using that to power the device.
 
 \subsection{Sensor network power}
 
@@ -361,6 +408,9 @@ Therefore a 3.3v powersupply of 250mA (approximately 0.825W) should be sufficien
 For areas with sufficient lighting combination of solar and battery could be an option.
 
 However it makes more sense to power the nodes using a USB adapter.
+
+For the purpose of this project, 
+we are simply powering it on the breadboard using the power from programmer.
 
 
 \section{Security}
