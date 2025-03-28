@@ -100,7 +100,7 @@ After you connect, a captive portal is presented where you can enter the necessa
 such as the WiFi SSID and the password to connect the sensor to the network.
 After this the device connects to the specified network,
 and presents a server that returns a JSON that contains the readings for the onboard sensors.
-If the network configureation is changed, or the device is unable to find or connnect to the configured network,
+If the network configuration is changed, or the device is unable to find or connnect to the configured network,
 the device presents an access point again and the user can repeat this process.
 
 \begin{figure}[h]
@@ -270,11 +270,16 @@ querying the sensors on the network, and providing a web interface.
 The web interface should present a dashboard to the user where they can
 monitor the temperature and set preferences.
 
+In addition there should be physical buttons to raise and lower the temperature if needed.
 
 \subsection{Smart System}
 
-A smart thermostat would take measurements from the sensor network to make decisions.
+A smart system is the combination of a sensor network, internet connectivity, and control.
 
+A smart thermostat would take measurements from the sensor network to make decisions.
+Because of this control loop, this would be considered a smart system.
+
+How should the system decide what to do? 
 Using the average of the sensors, biased by the hightest or lowest reading,
 the thermostat would know how to maintain the temperature of the room.
 
@@ -415,17 +420,33 @@ we are simply powering it on the breadboard using the power from programmer.
 
 \section{Security}
 
+Because the devices connect to a WiFi network,
+some of the security for the sensor network is already provided by 
+the encryption mechanisms of the network.
+
 
 \subsection{web interface}
 
-
 \subsection{nodes}
-
 
 \subsection{updates}
 
+All though we did not implement over the air updates.
+Updating the sensor network is possible using the ArduinoOTA.h library.
 
-\section{Conclusions}
+It is also possible ot update the IoT device, however that can present security risks
+because the IoT device is exposed to the internet.
+
+One way to migitate this is to run the update endpoint on a specific port,
+block the port in the firewall,
+and require the user to update the device from their local network.
+
+Alternatively the update mechanism can be left exposed to the internet
+and more sophisticated methods can be used such as code signing and requring authentication,
+so that the device will only accept firmware that has been signed with the appropriate keys.
+
+
+\section{Conclusions and Further Research}
 
 
 
