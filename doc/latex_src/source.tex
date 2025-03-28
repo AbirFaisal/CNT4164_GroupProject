@@ -1,0 +1,25 @@
+\documentclass{article}
+
+\usepackage{pgffor} % for sourcecode
+\usepackage{listings} % for sourcecode
+\usepackage{color} % for sourcecode
+
+\begin{document}
+
+\begin{@twocolumnfalse}
+
+    \section{Source Code - Sensor}
+    
+    \newcommand{\sensorsrcdir}{/Users/administrator/Developer/School stuff/CNT4164/CNT4164_GroupProject/src/sensor_temp_hum/sensor_temp_hum/src/}
+    
+    \foreach \cpp in  {\sensorsrcdir main.cpp, \sensorsrcdir sensor.cpp, \sensorsrcdir sensor.h, \sensorsrcdir sensorserver.cpp, \sensorsrcdir sensorserver.h} {
+
+        \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+        \lstinputlisting[language=C++, basicstyle=\footnotesize]{\cpp}
+    
+    }
+
+\end{@twocolumnfalse}
+
+
+\end{document}
