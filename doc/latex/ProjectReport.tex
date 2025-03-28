@@ -1,7 +1,7 @@
 \documentclass[10pt, journal]{IEEEtran} % TODO find out what is journal
-\renewcommand{\familydefault}{phv}
-\renewcommand{\rmdefault}{phv} % Arial
-\renewcommand{\sfdefault}{phv} % Arial
+% \renewcommand{\familydefault}{phv}
+% \renewcommand{\rmdefault}{phv} % Arial
+% \renewcommand{\sfdefault}{phv} % Arial
 \usepackage[a4paper, margin=1in]{geometry} % paper size and margin
 \usepackage{microtype} % prevent word breaks
 \usepackage{cite} % TODO learn how to use
@@ -14,6 +14,7 @@
 \usepackage{listings} % for sourcecode
 \usepackage{color} % for sourcecode
 \usepackage{url} % to show URLs
+
 
 \graphicspath{ {./images/} } % path where images are stored
 
@@ -47,6 +48,16 @@
 
 \begin{abstract}
     A brief summary of the entire paper, including the research question, methodology, key findings, and conclusions. 
+
+    This paper explores the integration of IoT sensor networks in smart home environments, 
+    focusing on climate control as a key application.
+    We present a system utilizing an RP2040W IoT device and ESP01 nodes equipped with AHT20 temperature and humidity sensors. 
+    The system is designed to create a smart thermostat that can monitor and control the home's climate efficiently. 
+    The paper details the setup, functionality, and potential extensions of this sensor network, 
+    including its ability to provide granular environmental data and automate climate control. 
+    We also discuss the broader implications of IoT devices in various home applications, 
+    from security to energy management, highlighting the benefits and challenges of implementing such technologies.
+
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -60,14 +71,14 @@
 
 \section{Introduction}
 
-The idea of the smart home has been around for a long time.
+\IEEEPARstart{T}{he} idea of the smart home has been around for a long time.
 IoT devices enable the smart devices to be networked.
 The use of these devices can provide users with several advantages,
-such as increased comfort, increased safety, improved home management and maintainance,
+such as increased comfort, increased safety, improved home management and maintenance,
 energy savings, automation and convenience in general.
 
 Furthermore, sensor networks augment the use of IoT devices by collecting data around the home.
-Unlike centralized sensing, a network of sensors can provice a more granular understanding of the enviornment.
+Unlike centralized sensing, a network of sensors can provide a more granular understanding of the environment.
 These sensors can be placed throughout the home, and connect using existing network infrastructure.
 
 In this report we show the use of a sensor network that could be used for climate control.
@@ -76,7 +87,7 @@ In this report we show the use of a sensor network that could be used for climat
 
 We are using an RP2040W as an IoT device, this will contain a web interface and it will
 query nodes on the sensor network.
-We did not have adequete time to implement this in hardware,
+We did not have adequate time to implement this in hardware,
 it is being mentioned for the purpose of explaining the concept.
 
 We're using an ESP01 devices as a nodes for the sensor network.
@@ -84,7 +95,7 @@ It will be paired with an AHT20 temperature and humidity sensor,
 which will be connected to the ESP01 over i2c.
 
 The combination of the IoT device and the sensor network will create a smart system, specifically a smart thermostat.
-In this implimentation, 
+In this implementation, 
 the IoT device also serves as the smart system because it would have direct control of the air conditioner.
 
 \subsection{Sensor}
@@ -96,14 +107,14 @@ They are not used for any other function.
 
 Setting up the device on the network is simple.
 The device presents a WiFi access point that you can connect to using your phone or computer.
-After you connect, a captive portal is presented where you can enter the necessarry credentials 
+After you connect, a captive portal is presented where you can enter the necessary credentials 
 such as the WiFi SSID and the password to connect the sensor to the network.
 After this the device connects to the specified network,
 and presents a server that returns a JSON that contains the readings for the onboard sensors.
-If the network configuration is changed, or the device is unable to find or connnect to the configured network,
+If the network configuration is changed, or the device is unable to find or connect to the configured network,
 the device presents an access point again and the user can repeat this process.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=0.4\textwidth]{images/sensor.png}
     \caption{ESP01 + AHT20 Sensor}
@@ -115,28 +126,28 @@ the device presents an access point again and the user can repeat this process.
 \section{Results}
 
 The sensor responds with a JSON formatted string when sent an HTTP request to it's IP Address.
-[Figure \ref{fig:sensor_response}]
 
-Here is an sample:
+Here is an sample, a demonstration can be seen in [Figure \ref{fig:sensor_response}]:
 
 \lstinline[basicstyle=\footnotesize]|{"id": 1, "temperature": 25.347, "humidity": 35.634}|
 
-The temperature is reported in celsius, and the humidity is reported in percent relative humidity.
+The temperature is reported in Celsius, and the humidity is reported in percent relative humidity.
 
-\begin{figure}[htpb]
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.4\textwidth]{images/sensor_response.png}
+    \includegraphics[width=0.48\textwidth]{images/sensor_response.png}
     \caption{Response from sensor}
     \label{fig:sensor_response}
 \end{figure}
 
 
-\section*{IoT Devices in Home Sensor Networks}
+\section{IoT Devices in Home Sensor Networks}
 
 There are many areas where a sensors can be used in the home.
-Here is a list of examples:
+Here is a non-comprehensive list of examples and areas where
+IoT devices and sensor networks can be used in the home:
 
-\begin{itemize}[]  % Customized list with more spacing
+\begin{itemize}[]
     \item{\textbf{Security and Surveillance}}
         \begin{itemize}
             \item Smart cameras
@@ -196,14 +207,14 @@ Here is a list of examples:
     \item{\textbf{Entertainment and Gaming}}
         \begin{itemize}
             \item Smart TVs with built-in apps
-            \item Video game consoles (e.g., Xbox One, PlayStation 4)
+            \item Video game consoles
             \item VR headsets with home tracking sensors
             \item Home theater systems with smart features
         \end{itemize}
 
     \item{\textbf{Health and Wellness}}
         \begin{itemize}
-            \item Smartwatches/fitness bands (e.g., Apple Watch, Fitbit)
+            \item Smartwatches and fitness bands
             \item Blood pressure monitors
             \item Weight scales with data tracking
             \item Sleep monitoring devices
@@ -229,17 +240,17 @@ Here is a list of examples:
 
     \item{\textbf{Miscellaneous Smart Devices}}
         \begin{itemize}
-            \item Smart mirrors with calendar/weather displays
+            \item Smart mirrors with calendar and weather displays
             \item Connected waste bins with fill level monitoring
             \item Smart key fobs for location tracking
             \item Plant monitors for soil moisture and light levels
             \item Smart pet feeders
         \end{itemize}
 
-    \item{\textbf{Tangenial Technologies}}
+    \item{\textbf{Other}}
         \begin{itemize}
-            \item Smart Cars
-            \item Healthcare
+            \item Smart Cars / Parking Lots / Garages
+            \item Healthcare at Home
         \end{itemize}
 
 \end{itemize}
@@ -264,7 +275,7 @@ Here is a list of examples:
 
 \section{Internet of Things, Sensor Networks, and Smart Systems}
 
-The IoT device in this use case serves two main responsabilties 
+The IoT device in this use case serves two main responsibilities 
 querying the sensors on the network, and providing a web interface.
 
 The web interface should present a dashboard to the user where they can
@@ -280,7 +291,7 @@ A smart thermostat would take measurements from the sensor network to make decis
 Because of this control loop, this would be considered a smart system.
 
 How should the system decide what to do? 
-Using the average of the sensors, biased by the hightest or lowest reading,
+Using the average of the sensors, biased by the highest or lowest reading,
 the thermostat would know how to maintain the temperature of the room.
 
 
@@ -316,12 +327,12 @@ but this can result in a control loop that oscillates if not done correctly.
 This is why thermostats generally do not have this functionality.
 A control loop such as PID can manage a system like this,
 however the engineering expense for such a system would far exceed the benefits 
-outside of a controlled environment such as a labratory.
+outside of a controlled environment such as a laboratory.
 A common change such as new furniture or home improvement
-can require recalibation of the PID parameters.
+can require calibration of the PID parameters.
 
 A simple solution for this can be the use of threshold values.
-This assumes that the average daily temperature fluxuation is known.
+This assumes that the average daily temperature fluctuation is known.
 If the temperature is within the specified range, nothing is done,
 
 For example a target temperature of 75 is set, with a range of 68-78.
@@ -332,11 +343,13 @@ if the temperature drops below 68, the system heats to 75.
 T_c = \frac{1}{n}\sum_{s \in S}{s}
 \]
 
-$heat = T_c < T_l$
+$heat = T_c \le T_l$
 
-$cool = T_c > T_u$
+$cool = T_c \ge T_u$
 
-$action = argmax(heat, cool)$
+$off = T_l < T_c < T_u$
+
+$action = argmax(heat, cool, off)$
 
 \smallskip
 
@@ -344,7 +357,7 @@ Where $T_l$ is the lower bound, and $T_u$ is the upper bound.
 
 \bigskip
 
-As long as the average daily temperature fluxuation is within the bounds,
+As long as the average daily temperature fluctuation is within the bounds,
 this system should not oscillate.
 
 Furthermore such a system would be simple enough for an end user to configure themselves,
@@ -390,7 +403,6 @@ off the shelf WiFi repeaters may be used.
 \subsection{IoT Power}
 
 Thermostats contain existing wiring for power, usually 24v AC.
-
 For this project we are using a 24v AC to 12v DC converter, 
 which will then be stepped down to 5v to power the IoT device.
 
@@ -402,16 +414,13 @@ so we are using that to power the device.
 
 \subsection{Sensor network power}
 
-According to the datasheet for the ESP8266, it should consume approximately 200mA under load.
-
-According the datasheet for the AHT20, the sensor typically consumes about 3mA.
-
+According to the data sheet for the ESP8266, it should consume approximately 200mA under load.
+According the data sheet for the AHT20, the sensor typically consumes about 3mA.
 Both the sensor and controller will accept 3.3v.
 
-Therefore a 3.3v powersupply of 250mA (approximately 0.825W) should be sufficient.
+Therefore a 3.3v power supply of 250mA (approximately 0.825W) should be sufficient.
 
 For areas with sufficient lighting combination of solar and battery could be an option.
-
 However it makes more sense to power the nodes using a USB adapter.
 
 For the purpose of this project, 
@@ -422,61 +431,109 @@ we are simply powering it on the breadboard using the power from programmer.
 
 Because the devices connect to a WiFi network,
 some of the security for the sensor network is already provided by 
-the encryption mechanisms of the network.
+the encryption mechanisms of the wireless network.
+The IoT device however must be hardened against attacks because this is directly exposed to the internet.
+In addition if the sensors are on a shared network, 
+there should be security mechanisms to prevent spoofing the IoT device with false readings.
+The sensor in our project is read-only and has no way being manipulated as far as we know.
+This should be sufficient security for most users.
 
 
-\subsection{web interface}
-
-\subsection{nodes}
-
-\subsection{updates}
+\subsection{Software Updates}
 
 All though we did not implement over the air updates.
 Updating the sensor network is possible using the ArduinoOTA.h library.
 
-It is also possible ot update the IoT device, however that can present security risks
+It is also possible to update the IoT device, however that can present security risks
 because the IoT device is exposed to the internet.
 
-One way to migitate this is to run the update endpoint on a specific port,
+One way to mitigate this is to run the update endpoint on a specific port,
 block the port in the firewall,
 and require the user to update the device from their local network.
 
 Alternatively the update mechanism can be left exposed to the internet
-and more sophisticated methods can be used such as code signing and requring authentication,
-so that the device will only accept firmware that has been signed with the appropriate keys.
+and more sophisticated methods can be used such as code signing and requiring authentication,
+so that the device will only accept firmware that has been signed with the appropriate keys,
+and only after being properly authenticated.
+Furthermore the update process would require end to end encryption to prevent MITM attacks.
 
 
 \section{Conclusions and Further Research}
 
 
 
+IoT has revolutionized the way we interact with our homes 
+by allowing us to have intelligent living spaces.
+
+The use of sensor networks in the home, like motion detectors, temperature sensors, 
+and air quality sensors continuously collect and analyze data,
+enhancing security, saving energy, and automating everyday tasks.
+
+According to security.org \cite[Vigderman]{Vigderman}, 78\% of prospective home buyers are willing to pay more for smart home features, 
+if you're wondering why people pick them.
+Furthermore, according to 82\% of tenants, their residences should include at least one smart gadget\cite[Howell]{Howell}.
+
+Based on data, you can presume that consumers recognize the value and appreciate convenience, security, 
+and cost savings with cool features like voice-activated smart speakers, remotely controlled smart lighting, 
+or multi functional smart appliances. 79\% of users say smart home gadgets have enhanced their life, 
+increasing productivity by 44\%, security by 45\%, and overall happiness by 57\% \cite[Howarth]{Howarth}.
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{images/forecast.png}
+    \caption{Market Forecast - \cite[Sinha]{Sinha}}
+    \label{fig:forecast}
+\end{figure}
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{images/share_by_device.png}
+    \caption{Market Share By Type - \cite[Mariotti]{Mariotti}}
+    \label{fig:sbd}
+\end{figure}
+
+The function of smart devices intended for security is to provide homeowners with peace of mind. 
+The purpose of motion floodlights, motion sound alarms, smart doorbells, and smart cameras is to deter crime. 
+According to the data in [Figure \ref{fig:sbd}], 26\% of all smart home devices fall under the Safety \& Security category. 
+
+Devices for lighting and climate control are also included in the graph above. 
+Climate control equipment includes space heaters, fans, humidifiers, and smart thermostats, among others.
+Users can control the temperature of their homes thanks to all of these IoT-connected devices.
+
+In order to prevent users from returning home to a dark house, 
+it would be possible to remotely control the lighting and climate 
+such that the power would be turned off while no one was home.
+When the user returns, the sensors can update the IoT device to turn them back on.
+
+The Energy and Water Control devices make up the graph's smallest category. 
+This includes smart sprinkler systems, smart plugs, smart sensors, and smart appliances. 
+Users might put a smart sensor beneath sinks in this application,
+which would notify a smartphone in the event of a leak or when it senses moisture. 
+When a user has small appliances that aren't automatically smart, smart plugs can be helpful. 
+Users could remotely manage the appliance's power operations by using a smart plug. 
+This is more efficient and conserves energy.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{images/oberlo.png}
+    \caption{Households using smart devices \cite[oberlo]{oberlo}}
+    \label{fig:oberlo}
+\end{figure}
+
+
+\pagebreak
 
 % \begin{@twocolumnfalse}
-    \bibliographystyle{plain} % We choose the "plain" reference style
-    \bibliography{references.bib} % Entries are in the refs.bib file
+    \bibliographystyle{plain}
+    \bibliography{references.bib}
 % \end{@twocolumnfalse}
 
 \section{3rd Party Libraries}
 github.com/robtillaart/DHT20
 
 github.com/tzapu/WiFiManager
-
-
-% \pagebreak
-% \begin{@twocolumnfalse}
-
-%     \section{Source Code - Sensor}
-    
-%     \newcommand{\sensorsrcdir}{/Users/administrator/Developer/School stuff/CNT4164/CNT4164_GroupProject/src/sensor_temp_hum/sensor_temp_hum/src/}
-    
-%     \foreach \cpp in  {\sensorsrcdir main.cpp, \sensorsrcdir sensor.cpp, \sensorsrcdir sensor.h, \sensorsrcdir sensorserver.cpp, \sensorsrcdir sensorserver.h} {
-
-%         \noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-%         \lstinputlisting[language=C++, basicstyle=\footnotesize]{\cpp}
-    
-%     }
-
-% \end{@twocolumnfalse}
 
 
 \end{document}
