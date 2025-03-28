@@ -11,3 +11,9 @@ src/.DS_Store
 .continue/.DS_Store
 .DS_Store
 src/IoT_device/IoT_Smart_Thermostat/secrets.py
+doc/latex_src/source.aux
+doc/latex_src/source.fdb_latexmk
+doc/latex_src/source.fls
+doc/latex_src/source.log
+doc/latex_src/source.synctex.gz
+doc/latex_src/source.pdf
