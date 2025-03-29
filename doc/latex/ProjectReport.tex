@@ -24,8 +24,8 @@
     }
 
 \author{
-    Abir Faisal, Paris Isley, Tutku Gizem \\
-    \small Group: UG18-4164 \\
+    Abir Faisal, Paris Isley, Tutku Gizem Guder \\
+    \small Group: \textbf{UG18-4164} \\
     \small CNT4164 - Intro to IOT and Sensor Networks - Final Project \\
     \small Prof. Mohammad Ilyas \\
     \smallskip
@@ -61,7 +61,7 @@
 \end{abstract}
 
 \begin{IEEEkeywords}
-    Sensor Networks, IoT, Internet of Things, Smart Homes
+    Sensor Networks, IoT, Internet of Things, Smart Systems, Smart Homes
 \end{IEEEkeywords}
 
 \noindent\rule{\textwidth}{1pt}
@@ -89,6 +89,8 @@ We are using an RP2040W as an IoT device, this will contain a web interface and 
 query nodes on the sensor network.
 We did not have adequate time to implement this in hardware,
 it is being mentioned for the purpose of explaining the concept.
+Instead we have created a web interface that queries the sensor for the purpose of demonstration.
+This can be seen in [Figure \ref{fig:npmweb}]
 
 We're using an ESP01 devices as a nodes for the sensor network.
 It will be paired with an AHT20 temperature and humidity sensor, 
@@ -136,8 +138,16 @@ The temperature is reported in Celsius, and the humidity is reported in percent 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.48\textwidth]{images/sensor_response.png}
-    \caption{Response from sensor}
+    \caption{Response from sensor using curl command}
     \label{fig:sensor_response}
+\end{figure}
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.48\textwidth]{images/DemoWebInterface.png}
+    \caption{Demo Web Interface using ReactJS}
+    \label{fig:npmweb}
 \end{figure}
 
 
@@ -461,7 +471,6 @@ Furthermore the update process would require end to end encryption to prevent MI
 \section{Conclusions and Further Research}
 
 
-
 IoT has revolutionized the way we interact with our homes 
 by allowing us to have intelligent living spaces.
 
@@ -522,15 +531,39 @@ This is more efficient and conserves energy.
     \label{fig:oberlo}
 \end{figure}
 
+\subsection{Addtional Thoughts - Energy Savings}
 
-\pagebreak
+The key to energy saving lies in better management of smart home devices. 
+Optimizing our home's energy consumption systems will reduce our energy consumption. 
+Smart devices and IoT Sensors in homes mean higher overall efficiency, through better remote control.
+
+\subsection{Addtional Thoughts - Home Automation}
+
+IoT automation connects physical objects to the internet, 
+allowing for seamless data exchange and improved operational efficiency. 
+This integration of IoT tech is transforming industries by enabling real-time data processing and communication between machines. 
+Facilitating automation and remote monitoring, IoT drives the digital transformation of manufacturing and other industries, 
+leading to smarter and more efficient operations. 
+
+\subsection{Addtional Thoughts - Growth of IoT adoption in Homes}
+
+IoT adoption and integration have increased over the past five years due to trends. 
+According to Parks Associates \cite[Parks]{Parks}, the average US household owns on average 16 connected devices. 
+Which is an increase from 2021 from 13 connected devices. 
+Through home automation and security applications, energy management and energy efficiency services, 
+new video distribution options through various connected devices, and remote control and monitoring capabilities, 
+smart home, connected health, and connected entertainment products offer consumers a higher level of convenience. 
+
+% \subsection{Addtional Thoughts - }
+
+% \pagebreak
 
 % \begin{@twocolumnfalse}
     \bibliographystyle{plain}
     \bibliography{references.bib}
 % \end{@twocolumnfalse}
 
-\section{3rd Party Libraries}
+\section*{3rd Party Libraries}
 github.com/robtillaart/DHT20
 
 github.com/tzapu/WiFiManager

@@ -2,7 +2,7 @@
  * @file webserver.h
  * @brief Webserver that allows configation or returns data from sensor.
  * @author Abir Faisal <noreply@fau.edu>
- * @date 2020-03-04
+ * @date 2025-03-04
  * @copyright Copyright (c) 2025 Florida Atlantic University/Abir Faisal
  * This software is released under the GNU GPLv3 License, see LICENSE.md
  */

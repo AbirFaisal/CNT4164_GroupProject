@@ -2,7 +2,7 @@
  * @file main.cpp
  * @brief IoT and Sensor Networks project
  * @author Abir Faisal <noreply@fau.edu>
- * @date 2020-02-06
+ * @date 2025-02-06
  * @copyright Copyright (c) 2025 Florida Atlantic University/Abir Faisal
  * This software is released under the GNU GPLv3 License, see LICENSE.md
  */
